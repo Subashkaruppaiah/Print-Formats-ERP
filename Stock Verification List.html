@@ -1,0 +1,206 @@
+<style>
+    @page {
+        size: A3 landscape;
+        margin: 3mm;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        font-size: 6px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+    td, th {
+        border: 1px solid #000;
+        padding: 4px;
+        text-align: center;
+        vertical-align: middle;
+        word-wrap: break-word;
+         font-size:8px;
+    }
+
+     
+    .bold {
+        font-weight: bold;
+    }
+
+</style>
+
+<table>
+
+    <!-- HEADER -->
+   
+   
+  
+
+    <tr style="  border:1.5px solid #000;" >
+        <td rowspan="3" colspan="2" style="border-right:1.5px solid #000; padding:5px;border-left:1.5px solid #000; padding:5px;">
+            {% set company_logo = frappe.db.get_value('Company', doc.company, 'company_logo') %}
+            {% if company_logo %}
+                <img src="{{ company_logo }}" style="max-height:100px; max-width:120px; display:block; margin:auto;">
+            {% else %}
+                <img src="/files/image.png" onerror="this.style.display='none';" style="max-height:100px; max-width:120px; display:block; margin:auto;">
+             
+            {% endif %}
+        </td>
+        <td rowspan="3" colspan="10" style="font-size:18px;  font-weight:bold; border-right:1.5px solid #000; padding:5px; ">
+             Stock Verification list
+        </td>
+        <td  colspan="2"  >Format No</td>
+        <td colspan="2" ></td>
+    </tr>
+   
+    <tr  style="  border:1.5px solid #000;">
+        <td colspan="2">Rev No</td>
+        <td colspan="2"></td>
+    </tr>
+    <tr  style="  border:1.5px solid #000;">
+        <td colspan="2">Date</td>
+        <td colspan="2">
+            {{ frappe.utils.formatdate(doc.posting_date, "dd-MM-yyyy") }}
+        </td>
+    </tr>
+   
+ 
+
+    <!-- INFO -->
+    <tr class="header-row">
+
+        <td colspan="2" class="bold" style="text-align:left;">
+            Customer Name:
+        </td>
+        
+        <td  colspan="4"  style="border-left:1px solid black;"></td>
+
+        <td colspan="3" style="font-weight:bold;text-align:left;">
+            Verification Date:
+        </td>
+<td colspan="2" style="border-left:1px solid black;"> </td>
+        <td colspan="3" class="bold">
+            Verification Year:
+        </td>
+
+        <td colspan="2"></td>
+
+    </tr>
+
+    <!-- COLUMN HEADER -->
+    <tr class="bold">
+
+        <td>S.No</td>
+
+        <td>Item Name</td>
+
+        <td colspan="2">Item <br> Description</td>
+
+        <td colspan="2">Item Code</td>
+
+        <td>Item <br>Classification</td>
+
+        <td>Allowed<br> Variance(%)</td>
+
+        <td>ERP Stock</td>
+
+        <td>Accepted <br> Stock(Min)</td>
+
+        <td>Accepted <br>Stock(Max)</td>
+
+        <td>Physical<br> Stock</td>
+
+        <td>Stock<br> Difference</td>
+
+        <td>Variance(%)</td>
+
+        <td>Acceptance <br>Status</td>
+
+        <td>Remarks</td>
+
+    </tr>
+
+    <!-- ONLY ENTERED VALUES ROWS -->
+    {% for row in doc.items %}
+
+        {% if
+            row.item_name or
+            row.description or
+            row.item_code or
+            row.erp_stock or
+            row.physical_stock
+        %}
+
+        <tr class="data-row">
+
+            <td>{{ loop.index }}</td>
+
+            <td>{{ row.item_name or "" }}</td>
+
+            <td colspan="2">{{ row.description or "" }}</td>
+
+            <td colspan="2">{{ row.item_code or "" }}</td>
+
+            <td>{{ row.item_group or "" }}</td>
+
+            <td>{{ row.allowed_variance or "" }}</td>
+
+            <td>{{ row.erp_stock or "" }}</td>
+
+            <td>{{ row.accepted_stock_min or "" }}</td>
+
+            <td>{{ row.accepted_stock_max or "" }}</td>
+
+            <td>{{ row.physical_stock or "" }}</td>
+
+            <td>{{ row.stock_difference or "" }}</td>
+
+            <td>{{ row.variance_percent or "" }}</td>
+
+            <td>{{ row.acceptance_status or "" }}</td>
+
+            <td>{{ row.remarks or "" }}</td>
+
+        </tr>
+
+        {% endif %}
+
+    {% endfor %}
+
+    <!-- SIGN -->
+    <tr style="height:40px;">
+
+        <td colspan="6" class="bold" style="text-align:left;">
+            Prepared By:
+        </td>
+
+        <td colspan="5" class="bold" style="text-align:left;">
+            Verified By:
+        </td>
+
+        <td colspan="5" class="bold" style="text-align:left;">
+            Approved By:
+        </td>
+
+    </tr>
+
+    <!-- NOTE -->
+    <tr>
+
+        <td colspan="16" style="text-align:left; line-height:20px;">
+
+            <b>Note :</b><br>
+
+            1. OK - Stock is within allowed variance → No corrective action required.
+
+            <br>
+
+            2. Not OK - Action Required: Stock variance exceeds → Investigate root cause and take corrective measures.
+
+        </td>
+
+    </tr>
+
+</table>

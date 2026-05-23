@@ -1,0 +1,291 @@
+<style>
+    @page {
+        size: A4 landscape;
+        margin: 5mm;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+        margin: 0;
+        padding: 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+    td, th {
+        border: 1px solid #000;
+        padding: 4px;
+        vertical-align: top;
+        word-wrap: break-word;
+    }
+
+    .center {
+        text-align: center;
+    }
+
+    .middle {
+        vertical-align: middle;
+    }
+
+    .bold {
+        font-weight: bold;
+    }
+
+    .title {
+        font-size: 15px;
+        font-weight: bold;
+        text-align: center;
+        line-height: 1.5;
+    }
+
+    .small {
+        font-size: 10px;
+    }
+
+    .h25 { height: 25px; }
+    .h30 { height: 30px; }
+    .h35 { height: 35px; }
+    .h40 { height: 40px; }
+    .h50 { height: 50px; }
+    .h60 { height: 60px; }
+    .h150 { height: 150px; }
+
+</style>
+
+<table>
+
+    <!-- HEADER -->
+    <tr>
+
+        <!-- LOGO -->
+        <td rowspan="3" style="width:18%;" class="center middle">
+
+            <img src="/files/image.png"
+                 style="width:90%; max-height:120px; object-fit:contain;">
+
+        </td>
+
+        <!-- TITLE -->
+        <td rowspan="3" colspan="4" class="title middle">
+
+            NON-RETURNABLE DELIVERY<br>
+            (System Control) CHALLAN
+
+        </td>
+
+        <!-- FORMAT -->
+        <td class="bold middle" style="width:15%;">
+            Format No:
+        </td>
+
+        <td style="width:15%;"></td>
+
+    </tr>
+
+    <tr>
+
+        <td class="bold middle">
+            Rev.No:
+        </td>
+
+        <td></td>
+
+    </tr>
+
+    <tr>
+
+        <td class="bold middle">
+            Date:
+        </td>
+
+        <td></td>
+
+    </tr>
+
+    <!-- FROM -->
+    <tr>
+
+        <td   rowspan="4" colspan="5" class="h150">
+
+            <div class="bold">FROM :</div>
+
+            HANYMAX ELECTRONICS<br> 
+
+            No. 11A, Ponnai Road,<br> 
+
+            Ranipet Industrial Park - Phase 1,<br> 
+
+            Narasingapuram, Ranipet - 632403,Tamilnadu.<br> 
+
+            Phone : +919176415873
+
+        </td>
+
+        <!-- DOC DETAILS --> 
+        <td class="bold middle">Doc No  </td>
+        <td></td>
+       <tr>
+         <td class="bold middle"> Date</td>
+         <td></td>
+         </tr>
+         <tr> 
+          <td class="bold middle">  Sup/<br>Cust.Ref#</td>
+          <td></td>
+          </tr>
+           <tr>
+            <td class="bold middle">  Sup/<br>Cust.Ref.Date </td>
+            <td></td>
+            </tr>
+ 
+    <!-- TO + MODE -->
+    <tr>
+
+        <td colspan="5" class="h25">
+
+            <div class="bold">TO :</div>
+
+        </td>
+
+        <td class="bold middle h25">
+            Mode of Transport
+        </td>
+
+        <td class="h25"></td>
+
+    </tr>
+
+    <!-- EMPTY TO AREA -->
+    <tr>
+
+        <td colspan="5" rowspan="5" class="h150"></td>
+
+        <td class="bold middle h25">
+            Transport Service Type
+        </td>
+
+        <td class="h25"></td>
+
+    </tr>
+
+    <tr>
+
+        <td class="bold middle h25">
+            Tracking No.
+        </td>
+
+        <td class="h25"></td>
+
+    </tr>
+
+    <tr>
+
+        <td class="bold middle h25">
+            Carrier Name
+        </td>
+
+        <td class="h25"></td>
+
+    </tr>
+
+    <tr>
+
+        <td class="bold middle h25">
+            Carrier Mobile No
+        </td>
+
+        <td class="h25"></td>
+
+    </tr>
+
+    <tr>
+
+        <td class="bold middle h25">
+            No. of Boxes
+        </td>
+
+        <td class="h25"></td>
+
+    </tr>
+
+    <!-- ITEM HEADER -->
+    <tr class="center bold h40">
+
+        <td style="width:7%;">
+            SL.NO
+        </td>
+
+        <td style="width:15%;">
+            ITEM CODE
+        </td>
+
+        <td colspan="3">
+            GOODS DESCRIPTION
+        </td>
+
+        <td style="width:10%;">
+            QTY
+        </td>
+
+        <td style="width:12%;">
+            Cost<br>(in INR)
+        </td>
+
+    </tr>
+
+    <!-- ROW 1 -->
+    {% for item in data_list %}
+<tr class="h25 center">
+     
+    <td>{{ loop.index }}</td>
+    <td>{{ item.column1 }}</td>
+    <td>{{ item.column2 }}</td>
+    <td>{{ item.column3 }}</td>
+     <td>{{ item.column4 }}</td>
+    <td>{{ item.column5 }}</td>
+</tr>
+{% endfor %}
+
+    <!-- REASON -->
+    <tr class="h40">
+
+        <td colspan="5" class="bold middle">
+            Reason
+        </td>
+
+        <td class="bold center middle">
+            Total Cost
+        </td>
+
+        <td></td>
+
+    </tr>
+
+    <!-- SIGNATURE -->
+    <tr class="h60">
+
+        <td colspan="2" class="bold">
+            Requested<br><br>By:
+        </td>
+
+        <td colspan="3" class="bold">
+            Verified By:
+        </td>
+
+        <td colspan="2" class="bold">
+            Approved By:
+        </td>
+
+    </tr>
+
+</table>
+
+<br>
+
+<div class="small bold">
+    Note : " XXX " represents Continuous Serial number(Ex:001,002,003...etc)
+</div>

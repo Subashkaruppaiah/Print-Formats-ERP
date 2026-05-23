@@ -1,0 +1,170 @@
+<style>
+@media print {
+    @page {
+        size: A3 landscape;
+        margin: 5mm;
+    }
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 9px;
+    margin: 0;
+    padding: 0;
+}
+
+.outward-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    border: 1.5px solid #000;
+}
+
+.outward-table th, 
+.outward-table td {
+    border: 1px solid #000;
+    padding: 4px 2px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 8px;
+    word-wrap: break-word;
+}
+
+.outward-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.header-title {
+    font-size: 25px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.meta-label {
+    font-weight: bold;
+    text-align: right;
+    padding-right: 5px;
+    font-size: 7.5px;
+}
+
+.meta-value {
+    text-align: left;
+    padding-left: 5px;
+    font-size: 7.5px;
+}
+
+.data-row td {
+    height: 28px;
+}
+</style>
+
+<table class="outward-table">
+    <colgroup>
+        <col style="width: 3.0%;">  <col style="width: 5.5%;">  <col style="width: 6.5%;">  <col style="width: 5.0%;">  <col style="width: 5.5%;">  <col style="width: 6.5%;">  <col style="width: 11.0%;"> <col style="width: 12.0%;"> <col style="width: 4.5%;">  <col style="width: 5.0%;">  <col style="width: 5.5%;">  <col style="width: 6.0%;">  <col style="width: 5.5%;">  <col style="width: 5.5%;">  <col style="width: 6.0%;">  <col style="width: 5.5%;">  <col style="width: 6.5%;">  </colgroup>
+
+    <tr>
+        <td rowspan="3" colspan="2" style="padding: 5px;">
+            {% set company_logo = frappe.db.get_value('Company', doc.company, 'company_logo') %}
+            {% if company_logo %}
+                <img src="{{ company_logo }}" style="max-height: 45px; max-width: 90px; display: block; margin: auto;">
+            {% else %}
+                <img src="/files/image.png" onerror="this.style.display='none';" style="max-height: 45px; max-width: 90px; display: block; margin: auto;">
+               
+            {% endif %}
+        </td>
+        <td rowspan="3" colspan="12" class="header-title">
+            Outward Register
+        </td>
+        <td colspan="2" class="meta-label">Format No:</td>
+        <td class="meta-value">HME-QF-STR-</td>
+    </tr>
+    <tr>
+        <td colspan="2" class="meta-label">Rev No:</td>
+        <td class="meta-value">00</td>
+    </tr>
+    <tr>
+        <td colspan="2" class="meta-label">Date:</td>
+        <td class="meta-value">
+            {% if doc.posting_date %}
+                {{ frappe.utils.formatdate(doc.posting_date, "dd-MM-yyyy") }}
+            {% endif %}
+        </td>
+    </tr>
+
+    <tr>
+        <th>S.No</th>
+        <th>Outward No</th>
+        <th>Outward Date</th>
+        <th>Outward Time</th>
+        <th>Invoice/<br>DC No</th>
+        <th>Invoice/<br>DC Date</th>
+        <th>Customer Name</th>
+        <th>Product Description</th>
+        <th>No.of<br>Boxes</th>
+        <th>Total<br>Weight</th>
+        <th>Mode of<br>Transport</th>
+        <th>Transport Service<br>Type</th>
+        <th>Carrier<br>Name</th>
+        <th>Carrier Mobile<br>No</th>
+        <th>Security<br>signature</th>
+        <th>Verified<br>by</th>
+        <th>Remarks</th>
+    </tr>
+
+    {% if doc.items %}
+        {% for item in doc.items %}
+        <tr class="data-row">
+            <td>{{ loop.index }}</td>
+            <td>{{ doc.name }}</td>
+            <td>
+                {% if doc.posting_date %}
+                    {{ frappe.utils.formatdate(doc.posting_date, "dd-MM-yyyy") }}
+                {% endif %}
+            </td>
+            <td>{{ doc.posting_time or "" }}</td>
+            <td>{{ doc.delivery_note or doc.sales_invoice or doc.name }}</td>
+            <td>
+                {% if doc.issue_date or doc.posting_date %}
+                    {{ frappe.utils.formatdate(doc.issue_date or doc.posting_date, "dd-MM-yyyy") }}
+                {% endif %}
+            </td>
+            <td style="text-align: left; padding-left: 3px;">{{ doc.customer_name or doc.customer or "" }}</td>
+            <td style="text-align: left; padding-left: 3px;">{{ item.item_name or item.item_code or "" }}</td>
+            <td>{{ doc.custom_no_of_boxes or item.custom_no_of_boxes or "" }}</td>
+            <td>{{ doc.total_net_weight or item.net_weight or "" }}</td>
+            <td>{{ doc.mode_of_transport or "" }}</td>
+            <td>{{ doc.custom_transport_service_type or "" }}</td>
+            <td>{{ doc.lr_date or "" }}</td>
+            <td>{{ doc.custom_carrier_mobile_no or "" }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        {% for i in range(1, 12) %}
+        <tr class="data-row">
+            <td>{{ i }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        {% endfor %}
+    {% endif %}
+
+</table>

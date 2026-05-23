@@ -1,0 +1,227 @@
+<style>
+    @page {
+        size: A4 landscape;
+        margin: 5mm;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        font-size: 10px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    td, th {
+        border: 1px solid black;
+        padding: 4px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .title {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .left {
+        text-align: left;
+    }
+
+    .logo img {
+        width: 70px;
+    }
+
+    .top-row {
+        height: 38px;
+    }
+
+    .item-row {
+        height: 32px;
+    }
+
+    .sign-row {
+        height: 45px;
+        font-weight: bold;
+    }
+</style>
+
+<table>
+
+    <!-- HEADER -->
+
+    <tr>
+
+        <td rowspan="3" style="width:130px;" class="logo">
+            <img src="/files/image.png"><br>
+            HANYMAX
+        </td>
+
+        <td colspan="7" rowspan="3" class="title">
+            KIT COPY
+        </td>
+
+        <td colspan="2" class="left">
+            Format No:
+        </td>
+        
+        <td width="160px;"></td>
+
+    </tr>
+
+    <tr>
+
+        <td colspan="2" class="left">
+            Rev.No:
+        </td>
+        
+        <td width="160px"></td>
+
+    </tr>
+
+    <tr>
+
+        <td colspan="2" class="left">
+            Date:
+        </td>
+        <td width="160px"></td>
+
+    </tr>
+
+    <!-- TOP DETAILS -->
+
+    <tr class="top-row">
+
+        <td style="width:400px;">Product Name</td>
+        <td colspan="1"></td>
+      
+
+        <td style="width:120px">BOM NO</td>
+        <td colspan="2"></td>
+
+        <td>Kit Copy No</td>
+        <td colspan="2"></td>
+
+        <td colspan="2">Kit Issue<br>Date</td>
+        <td width="100px;"></td>
+
+    </tr>
+
+    <tr class="top-row">
+
+        <td>FG No</td>
+
+        <td colspan="1"></td>
+
+        <td style="width:120px">Work Order No</td>
+        <td colspan="2"></td>
+
+        <td >Work Order release Date</td>
+        <td colspan="2"></td>
+
+        <td colspan="2">Work Order Qty</td>
+        <td width="100px;"></td>
+
+    </tr>
+
+    <!-- TABLE HEADER -->
+
+    <tr>
+
+        <th style="width:50px;">S.No</th>
+
+        <th style="width:170px;">
+            Manufacturing Part Number
+        </th>
+
+        <th style="width:220px;">
+            Part Description
+        </th>
+
+        <th style="width:150px;">
+            ERP Part Number
+        </th>
+
+        <th style="width:110px;">
+            Quantity per unit
+        </th>
+
+        <th style="width:110px;">
+            Required Quantity
+        </th>
+
+        <th style="width:110px;">
+            Issued Quantity
+        </th>
+
+        <th style="width:120px;">
+            Difference Quantity
+        </th>
+
+        <th style="width:130px;">
+            GRN Number
+        </th>
+
+        <th style="width:110px;">
+            GRN Date
+        </th>
+
+        <th style="width:120px;">
+            Remarks
+        </th>
+
+    </tr>
+
+    <!-- DYNAMIC ROWS -->
+
+    {% for item in doc.items %}
+
+    <tr class="item-row">
+
+        <td>{{ loop.index }}</td>
+
+        <td></td>
+
+        <td></td>
+
+        <td></td>
+
+        <td></td>
+
+        <td>0</td>
+
+        <td></td>
+
+        <td>0</td>
+
+        <td></td>
+
+        <td></td>
+
+        <td></td>
+
+    </tr>
+
+    {% endfor %}
+
+    <!-- SIGNATURE -->
+
+    <tr class="sign-row">
+
+        <td colspan="3" class="left">
+            Prepared By:
+        </td>
+
+        <td colspan="5" class="left">
+            Verified By:
+        </td>
+
+        <td colspan="3" class="left">
+            Received By:
+        </td>
+
+    </tr>
+
+</table>

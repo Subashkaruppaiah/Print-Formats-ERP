@@ -1,0 +1,195 @@
+<style>
+    .scrap-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+    }
+
+    .scrap-table td,
+    .scrap-table th {
+        border: 1px solid black;
+        padding: 4px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .logo-cell {
+        width: 140px;
+        height: 100px;
+    }
+
+    .logo-cell img {
+        width: 100%;
+        height: 100px;
+        object-fit: contain;
+    }
+
+    .title-cell {
+        font-size: 24px;
+        font-weight: bold;
+        height: 85px;
+    }
+
+    .header-cell {
+        font-weight: bold;
+        height: 50px;
+    }
+
+    .data-row td {
+        height: 28px;
+    }
+
+    .footer-row td {
+        height: 35px;
+        font-weight: bold;
+        text-align: left;
+        padding-left: 8px;
+    }
+
+    .left {
+        text-align: left;
+        padding-left: 6px;
+    }
+</style>
+
+<table class="scrap-table">
+
+    <!-- HEADER -->
+    <tr>
+
+        <!-- LOGO -->
+        <td rowspan="3" colspan="2" class="logo-cell">
+            <img src="/files/image.png">
+        </td>
+
+        <!-- TITLE -->
+        <td rowspan="3" colspan="6" class="title-cell">
+            SCRAP REGISTER LOG
+        </td>
+
+        <!-- FORMAT / REV / DATE -->
+        <td   class="left" colspan="2" 
+            style="font-weight:bold;">
+            Format No:
+        </td>
+        
+<td></td>
+    </tr>
+
+    <tr>
+
+        <td   class="left" colspan="2" 
+            style="font-weight:bold;">
+            Rev.No:
+        </td>
+  <td></td>
+ 
+    </tr>
+
+    <tr>
+
+        <td   class="left" colspan="2" 
+            style="font-weight:bold;">
+            Date:
+        </td>
+  
+<td></td>
+    </tr>
+
+    <!-- COLUMN HEADER -->
+    <tr class="header-cell">
+
+        <td style="width:50px;">S.No</td>
+
+        <td style="width:90px;">
+            Scrap<br>No
+        </td>
+
+        <td style="width:140px;">
+            Department
+        </td>
+
+        <td style="width:220px;">
+            Reason for Scrap
+        </td>
+
+        <td style="width:110px;">
+            Total Scrap<br>value
+        </td>
+
+        <td style="width:120px;">
+            Scrap<br>Category
+        </td>
+
+        <td style="width:130px;">
+            Disposition<br>Method
+        </td>
+
+        <td style="width:140px;">
+            Scrap Requested<br>by
+        </td>
+
+        <td style="width:100px;">
+            QA Sign
+        </td>
+
+        <td style="width:100px;">
+            Stores Sign
+        </td>
+
+        <td style="width:120px;">
+            Remarks
+        </td>
+
+    </tr>
+
+    <!-- DATA ROWS -->
+    {% for row in doc.items %}
+    <tr class ="data-row">
+        
+        <td>{{loop.index}}</td>
+        
+        <td>{{row.scrap_no or ""}}</td>
+        
+        <td>{{row.department or ""}}</td>
+        
+        <td>{{row.reason_for_scrap or ""}}</td>
+        
+        <td>{{row.total_scrap_value or ""}}</td>
+        
+        <td>{{row.scrap_category or ""}}</td>
+        
+        <td>{{row.disposition_method or ""}}</td>
+        
+        <td>{{row.scrap_requested_by or ""}}</td>
+        
+        <td></td>
+        
+        <td></td>
+        
+        <td>{{row.remake or ""}}</td>
+        
+        
+    </tr>
+    
+    {% endfor %}
+
+    <!-- FOOTER -->
+    <tr class="footer-row">
+
+        <td colspan="4">
+            Prepared By:
+        </td>
+
+        <td colspan="3">
+            Verified By:
+        </td>
+
+        <td colspan="4">
+            Approved By:
+        </td>
+
+    </tr>
+
+</table>

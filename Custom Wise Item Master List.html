@@ -1,0 +1,187 @@
+<style>
+
+@page {
+    size: A4 landscape;
+    margin: 8mm;
+}
+
+.print-format {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    padding: 0px;
+}
+
+.main-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.main-table td,
+.main-table th {
+    border: 1px solid #000;
+    padding: 4px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.logo-cell {
+    width: 12%;
+}
+
+.header-small {
+    width: 12%;
+    font-size: 12px;
+    text-align: left;
+}
+
+.footer-cell {
+    height: 50px;
+    font-weight: bold;
+    text-align: left !important;
+    vertical-align: bottom;
+}
+
+.note-row {
+    border: none !important;
+    text-align: left !important;
+    padding-top: 10px;
+}
+
+</style>
+
+<table class="main-table">
+
+    <!-- TOP HEADER -->
+
+    <tr>
+
+        <td rowspan="3" class="logo-cell">
+
+            <img src="{{ frappe.db.get_value('Company', frappe.defaults.get_user_default('Company'), 'company_logo') }}"
+                 style="max-height:80px; max-width:120px; object-fit:contain;">
+
+        </td>
+
+        <td rowspan="3" class="title">
+            Master list of Items
+        </td>
+
+        <td class="header-small">
+            Format No:
+        </td>
+
+    </tr>
+
+    <tr>
+        <td class="header-small">
+            Rev.No:
+        </td>
+    </tr>
+
+    <tr>
+        <td class="header-small">
+            Date: AUTO
+        </td>
+    </tr>
+
+    <!-- CUSTOMER -->
+
+    <tr>
+
+        <td colspan="12"
+            style="font-size:14px;font-weight:bold;height:40px;">
+
+            Customer Name:
+            {{ filters.customer }}
+
+        </td>
+
+    </tr>
+
+    <!-- COLUMN HEADER -->
+
+    <tr>
+
+        <th>S.No</th>
+        <th>Item Name</th>
+        <th>Item Category</th>
+        <th>Item Description</th>
+        <th>Make</th>
+        <th>Manufacturing Part Number</th>
+        <th>ERP Part Number</th>
+        <th>Item Classification</th>
+        <th>Stock Check Frequency</th>
+        <th>Allowed Variance</th>
+        <th>Remarks</th>
+
+    </tr>
+
+    <!-- DATA ROWS -->
+
+    {% for row in data %}
+
+    <tr>
+
+        <td>{{ loop.index }}</td>
+
+        <td>{{ row.item_name }}</td>
+
+        <td>{{ row.item_category }}</td>
+
+        <td>{{ row.item_description }}</td>
+
+        <td>{{ row.make }}</td>
+
+        <td>{{ row.manufacturing_part_number }}</td>
+
+        <td>{{ row.erp_part_number }}</td>
+
+        <td>{{ row.item_classification }}</td>
+
+        <td>{{ row.stock_check_frequency }}</td>
+
+        <td>{{ row.allowed_variance }}</td>
+
+        <td>{{ row.remarks }}</td>
+
+    </tr>
+
+    {% endfor %}
+
+    <!-- FOOTER -->
+
+    <tr>
+
+        <td colspan="4" class="footer-cell">
+            Prepared By:
+        </td>
+
+        <td colspan="4" class="footer-cell">
+            Verified By:
+        </td>
+
+        <td colspan="3" class="footer-cell">
+            Approved By:
+        </td>
+
+    </tr>
+
+    <!-- NOTE -->
+
+    <tr>
+
+        <td colspan="11" class="note-row">
+
+            <b>Note :</b>
+            The item master shall be reviewed and authorized once every 3 months.
+
+        </td>
+
+    </tr>
+
+</table>

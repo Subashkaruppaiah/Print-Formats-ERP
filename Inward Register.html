@@ -1,0 +1,136 @@
+<style>
+@media print {
+    @page {
+        size: A4 landscape;
+        margin: 8mm;
+    }
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+}
+
+.single-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1.5px solid #000;
+}
+
+.single-table td,
+.single-table th {
+    border: 1px solid #000;
+    padding: 5px 3px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 9px;
+}
+
+.single-table th {
+    background: #f0f0f0;
+    font-weight: bold;
+    line-height: 1.4;
+}
+
+.single-table .data-row td {
+    height: 28px;
+}
+</style>
+
+<table class="single-table">
+
+    <!-- HEADER ROW 1 -->
+    <tr>
+        <td rowspan="3" colspan="2"
+            style="width:10%; border-right:1px solid #000; border-bottom:none; text-align:center; vertical-align:middle; padding:8px;">
+            {% set company_logo = frappe.db.get_value('Company', doc.company, 'company_logo') %}
+            {% if company_logo %}
+                <img src="{{ company_logo }}" style="max-height:55px;">
+            {% endif %}
+        </td>
+        <td rowspan="3" colspan="8"
+            style="font-size:20px; font-weight:bold; letter-spacing:1px; border-right:1px solid #000; border-bottom:none; text-align:center; vertical-align:middle;">
+            INWARD REGISTER
+        </td>
+        <td colspan="3" style="font-weight:bold; text-align:left; padding:5px; border-bottom:1px solid #000;">
+            Format Number:
+        </td>
+        <td colspan="3" style="text-align:left; padding:5px; border-bottom:1px solid #000;">
+            {{ doc.custom_format_number or '' }}
+        </td>
+    </tr>
+
+    <!-- HEADER ROW 2 -->
+    <tr>
+        <td colspan="3" style="font-weight:bold; text-align:left; padding:5px; border-bottom:1px solid #000;">
+            Revision No:
+        </td>
+        <td colspan="3" style="text-align:left; padding:5px; border-bottom:1px solid #000;">
+            {{ doc.custom_revision_no or '' }}
+        </td>
+    </tr>
+
+    <!-- HEADER ROW 3 -->
+    <tr>
+        <td colspan="3" style="font-weight:bold; text-align:left; padding:5px; border-bottom:none;">
+            Revision Date:
+        </td>
+        <td colspan="3" style="text-align:left; padding:5px; border-bottom:none;">
+            {{ frappe.utils.formatdate(doc.posting_date, "dd-MM-yyyy") }}
+        </td>
+    </tr>
+
+    <!-- COLUMN HEADERS -->
+    <tr>
+        <th style="width:3%;">S.No</th>
+        <th style="width:6%;">Inward No</th>
+        <th style="width:6%;">Inward Date</th>
+        <th style="width:7%;">Inward Time</th>
+        <th style="width:7%;">Invoice No</th>
+        <th style="width:7%;">Delivery Challan No</th>
+        <th style="width:7%;">Invoice / DC Date</th>
+        <th style="width:9%;">Supplier / Customer</th>
+        <th style="width:5%;">No. of Boxes</th>
+        <th style="width:5%;">Total Weight</th>
+        <th style="width:7%;">Receipt Service Type</th>
+        <th style="width:6%;">Carrier Name</th>
+        <th style="width:7%;">Carrier Mobile No</th>
+        <th style="width:8%;">Received By</th>
+        <th style="width:6%;">Verified By</th>
+        <th style="width:6%;">Remarks</th>
+    </tr>
+
+    <!-- DATA ROW -->
+    <tr class="data-row">
+        <td>1</td>
+        <td>{{ doc.name }}</td>
+        <td>{{ frappe.utils.formatdate(doc.posting_date, "dd-MM-yyyy") }}</td>
+
+        <!-- SAFE TIME FORMAT -->
+        <td>
+            {% if doc.posting_time %}
+                {% set pt = doc.posting_time | string %}
+                {% set parts = pt.split(':')%}
+                {{ parts[0] }} : {{ parts[1] }}
+            {% endif %}
+        </td>
+
+        <td>{{ doc.bill_no or "" }}</td>
+        <td>{{ doc.lr_no or "" }}</td>
+        <td>
+            {% if doc.bill_date %}
+                {{ frappe.utils.formatdate(doc.bill_date, "dd-MM-yyyy") }}
+            {% endif %}
+        </td>
+        <td>{{ doc.supplier or "" }}</td>
+        <td>{{ doc.no_of_boxes or "" }}</td>
+        <td>{{ doc.total_weight or "" }}</td>
+        <td>{{ doc.receipt_service_type or "" }}</td>
+        <td>{{ doc.transporter_name or "" }}</td>
+        <td>{{ doc.driver_contact or "" }}</td>
+        <td>{{ frappe.db.get_value("User", doc.owner, "full_name") or doc.owner }}</td>
+        <td>{{ doc.verified_by or "" }}</td>
+        <td>{{ doc.remarks or "" }}</td>
+    </tr>
+
+</table>

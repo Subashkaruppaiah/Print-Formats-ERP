@@ -1,0 +1,222 @@
+<style>
+@media print {
+    @page {
+        size: A4 landscape;
+        margin: 5mm;
+    }
+}
+
+body{
+    font-family: Arial, sans-serif;
+    font-size:9px;
+}
+
+.single-table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+    border:1.5px solid #000;
+}
+
+.single-table td,
+.single-table th{
+    border:1px solid #000;
+    padding:4px;
+    text-align:center;
+    vertical-align:middle;
+    font-size:8px;
+    word-wrap:break-word;
+}
+.inward-label {
+    text-align: left !important;
+    padding-left: 8px !important;
+    font-weight: bold;
+    height: 26px;
+    
+}
+.single-table th{
+    background:#f2f2f2;
+    font-weight:bold;
+}
+
+.data-row td{
+    height:28px;
+}
+
+.top-label{
+    font-weight:bold;
+    text-align:right;
+    padding-right:8px;
+    white-space:nowrap;
+}
+
+.top-value{
+    text-align:left;
+    padding-left:8px;
+}
+
+
+</style>
+
+<table class="single-table">
+
+    <colgroup>
+        <col style="width:4%;"> <col style="width:11%;"> <col style="width:12%;"> <col style="width:12%;"> <col style="width:8%;"> <col style="width:8%;"> <col style="width:8%;"> <col style="width:8%;"> <col style="width:8%;"> <col style="width:8%;"> <col style="width:16%;"> </colgroup>
+
+    <tr>
+        <td rowspan="3" colspan="2" style="border-right:1.5px solid #000; padding:5px;">
+            {% set company_logo = frappe.db.get_value('Company', doc.company, 'company_logo') %}
+            {% if company_logo %}
+                <img src="company_logo" style="max-height:100px; max-width:120px; display:block; margin:auto;">
+            {% else %}
+                <img src="/files/image.png" onerror="this.style.display='none';" style="max-height:55px; max-width:120px; display:block; margin:auto;">
+               
+            {% endif %}
+        </td>
+        <td rowspan="3" colspan="5" style="font-size:18px; font-weight:bold;">
+             <div style="font-size:10px; font-weight:bold; margin-top:3px;">HANYMAX ELECTRONICS</div>
+            Material Control Memo
+        </td>
+        <td colspan="2" class="top-label">Format No</td>
+        <td colspan="2" class="top-value"></td>
+    </tr>
+    <tr>
+        <td colspan="2" class="top-label">Rev No</td>
+        <td colspan="2" class="top-value"></td>
+    </tr>
+    <tr>
+        <td colspan="2" class="top-label">Date</td>
+        <td colspan="2" class="top-value">
+            {{ frappe.utils.formatdate(doc.posting_date, "dd-MM-yyyy") }}
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="2" class="top-label" style="border-right:1.5px solid #000;">Supplier Name</td>
+        <td colspan="2" class="top-value">{{ doc.supplier or "" }}</td>
+        <td class="top-label">Invoice / <br>DC#</td>
+        <td colspan="2" class="top-value">{{ doc.bill_no or "" }}</td>
+        <td colspan="2" class="top-label">GRN Number</td>
+        <td colspan="2" class="top-value">{{ doc.name }}</td>
+    </tr>
+    <tr>
+        <td colspan="2" class="top-label" style="border-right:1.5px solid #000;">Supplier Code</td>
+        <td colspan="2" class="top-value">
+            {{ frappe.db.get_value("Supplier", doc.supplier, "custom_supplier_code") or "" }}
+        </td>
+        <td class="top-label">Invoice/ <br>DC Date</td>
+        <td  colspan="2" class="top-value">
+            {% if doc.bill_date %}
+                {{ frappe.utils.formatdate(doc.bill_date, "dd-MM-yyyy") }}
+            {% endif %}
+        </td>
+        <td colspan="2" class="top-label">GRN Date</td>
+        <td colspan="2" class="top-value">
+            {{ frappe.utils.formatdate(doc.posting_date, "dd-MM-yyyy") }}
+        </td>
+    </tr>
+
+    <tr>
+        <th rowspan="2">S.#</th>
+        <th rowspan="2">Part Number</th>
+        <th rowspan="2">Part Description</th>
+        <th rowspan="2" >UOM</th>
+        <th colspan="3">Quantity<br> Verification(Stores)</th>
+        <th colspan="2">Quality<br> Inspection(QA)</th>
+        <th colspan="2">Inventory</th>
+    </tr>
+    <tr>
+        <th>DC/ <br>Invoice QTY</th>
+        <th>Received <br> QTY</th>
+        <th>Variance <br> QTY</th>
+        <th>Accepted<br> QTY</th>
+        <th>Rejected<br> QTY</th>
+        <th>Stock Posting <br>Status</th>
+        <th>Storage/Bin<br> Location</th>
+    </tr>
+
+    {% for item in doc.items %}
+    <tr class="data-row">
+        <td>{{ loop.index }}</td>
+        <td>{{ item.item_code or "" }}</td>
+        <td style="text-align:left;">{{ item.item_name or "" }}</td>
+        <td>{{ item.uom or "" }}</td>
+        <td>{{ item.qty or "" }}</td>
+        <td>{{ item.received_qty or "" }}</td>
+        <td>
+            {% if item.qty and item.received_qty %}
+                {{ item.qty - item.received_qty }}
+            {% endif %}
+        </td>
+        <td>{{ item.accepted_qty or "" }}</td>
+        <td>{{ item.rejected_qty or "" }}</td>
+        <td>
+            {% if item.accepted_qty and item.accepted_qty > 0 %}
+                Posted
+            {% else %}
+                Pending
+            {% endif %}
+        </td>
+        <td>{{ item.warehouse or "" }}</td>
+    </tr>
+    {% endfor %}
+
+    <tr>
+        <td colspan="4" style="font-weight:bold; height:24px;">Inward Entry</td>
+        <td colspan="3" style="font-weight:bold;">Remarks</td>
+        <td colspan="2" style="font-weight:bold;">Remarks</td>
+        <td colspan="2" style="font-weight:bold;">Remarks</td>
+    </tr>
+
+    <tr>
+        <td class="inward-label"colspan="2" >Total Weight</td>
+        <td></td>
+        <td   style=" text-align:center; padding-top:10px; font-weight:bold;">
+            Security Seal
+        </td>
+        <td colspan="3" rowspan="3" style="  height:78px;"></td>
+        <td colspan="2" rowspan="3" style=" "></td>
+        <td colspan="2" rowspan="3" style=" "></td>
+    </tr>
+
+    <tr>
+        <td class="inward-label"colspan="2">No.Of Boxes</td>
+        <td></td>
+         <td rowspan="3"></td>
+    </tr>
+
+    <tr>
+        <td class="inward-label"colspan="2">Inward Number</td>
+        <td></td>
+         
+    </tr>
+
+    <tr>
+        <td class="inward-label"colspan="2">Inward Date</td>
+        <td ></td>
+    
+         <td colspan="3" rowspan="2" style="text-align:left; padding-left:10px; vertical-align:bottom; padding-bottom:6px; height:58px;">
+            Signature:
+        </td>
+       
+        <td colspan="2" rowspan="2" style="text-align:left; padding-left:10px; vertical-align:bottom; padding-bottom:6px;">
+            Signature:
+        </td>
+        <td colspan="2" rowspan="2" style="text-align:left; padding-left:10px; vertical-align:bottom; padding-bottom:6px;">
+            Signature:
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="5" style="text-align:left; padding-left:10px; height:32px; font-weight:bold; vertical-align:middle;">
+            Approved By:
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="11" style="text-align:left; padding-left:10px; height:32px;">
+            <b>Comments:</b>
+        </td>
+    </tr>
+
+</table>

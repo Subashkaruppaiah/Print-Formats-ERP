@@ -1,0 +1,255 @@
+<style>
+    .scrap-report {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+    }
+
+    .scrap-report td,
+    .scrap-report th {
+        border: 1px solid black;
+        padding: 4px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .logo-cell {
+        width: 120px;
+        height: 70px;
+    }
+
+    .logo-cell img {
+        width: 100%;
+        height: 60px;
+        object-fit: contain;
+    }
+
+    .title-cell {
+        font-size: 22px;
+        font-weight: bold;
+        height: 70px;
+    }
+
+    .header-row td {
+        font-weight: bold;
+    }
+
+    .data-row td {
+        height: 28px;
+    }
+
+    .footer-row td {
+        height: 30px;
+        font-weight: bold;
+        text-align: left;
+        padding-left: 8px;
+    }
+
+    .note-cell {
+        text-align: center;
+        font-weight: bold;
+        line-height: 20px;
+    }
+</style>
+
+<table class="scrap-report">
+
+    <!-- HEADER -->
+    <tr>
+
+        <!-- LOGO -->
+        <td rowspan="3" colspan="2" class="logo-cell">
+            <img src="/files/image.png">
+        </td>
+
+        <!-- TITLE -->
+        <td rowspan="3" colspan="7" class="title-cell">
+            Scrap Report
+        </td>
+
+        <!-- FORMAT -->
+        <td  style="font-weight:bold; text-align:left;border-right:1px solid black !important;">
+            Format No:
+        </td>
+        
+        <td colspan="2"></td>
+
+    </tr>
+
+    <tr>
+
+        <!-- REV -->
+        <td  style="font-weight:bold; text-align:left;border-right:1px solid black !important;">
+            Rev.No:
+        </td>
+        
+        <td colspan="2"></td>
+
+    </tr>
+
+    <tr>
+
+        <!-- DATE -->
+        <td  style="font-weight:bold; text-align:left;border-right:1px solid black !important;">
+            Date:
+        </td>
+        
+        <td colspan="2"></td>
+
+    </tr>
+
+    <!-- INFO ROW -->
+    <tr>
+
+        <td colspan="3"
+            style="font-weight:bold; text-align:left; padding-left:2px;">
+            Department:
+        </td>
+
+        <td colspan="4"
+            style="font-weight:bold; text-align:left; padding-left:2px;">
+            Scrapped Area/Zone:
+        </td>
+
+        <td
+            style="font-weight:bold; text-align:left; padding-left:2px; border-right:0px !important;width:80px;">
+            Scrap No:
+        </td>
+
+        <td style="border-left:none !important;
+            border-right:none !important;
+            width:80px">
+        
+        </td>
+
+        <td colspan="4"
+            style="font-weight:bold; text-align:left; padding-left:2px;">
+            Scrap Date:
+        </td>
+
+    </tr>
+
+    <!-- COLUMN HEADER -->
+    <tr class="header-row">
+
+        <td style="width:55px;">
+            S.No
+        </td>
+
+        <td style="width:120px;">
+            Item<br>Code
+        </td>
+
+        <td style="width:190px;">
+            Item<br>Description
+        </td>
+
+        <td style="width:140px;">
+            Product<br>Name
+        </td>
+
+        <td style="width:70px;">
+            UOM
+        </td>
+
+        <td style="width:60px;">
+            Qty
+        </td>
+
+        <td style="width:70px;">
+            Rate
+        </td>
+
+        <td style="width:80px;">
+            Value
+        </td>
+
+        <td style="width:220px;">
+            Reason<br>for<br>Scrap
+        </td>
+
+        <td style="width:120px;">
+            Occurrence<br>Count
+        </td>
+
+        <td style="width:100px;">
+            Scrap<br>PIC
+        </td>
+
+        <td style="width:120px;">
+            Remarks
+        </td>
+
+    </tr>
+
+    <!-- DATA ROWS -->
+    {% for row in doc.items %}
+    <tr class="data-row">
+
+        <td>{{ loop.index }}</td>
+
+        <td>{{ row.item_code or "" }}</td>
+
+        <td>{{ row.item_description or "" }}</td>
+
+        <td>{{ row.product_name or "" }}</td>
+
+        <td>{{ row.uom or "" }}</td>
+
+        <td>{{ row.qty or "" }}</td>
+
+        <td>{{ row.rate or "" }}</td>
+
+        <td>{{ row.amount or "" }}</td>
+
+        <td>{{ row.reason_for_scrap or "" }}</td>
+
+        <td>{{ row.occurrence_count or "" }}</td>
+
+        <td>{{ row.scrap_pic or "" }}</td>
+
+        <td>{{ row.remarks or "" }}</td>
+
+    </tr>
+    {% endfor %}
+
+    <!-- NOTE -->
+    <tr>
+
+        <td colspan="7" class="note-cell">
+
+            Note : Scrap Number Generation<br>
+
+            Format : Department - 001(Continuous Serial number)<br>
+
+            Ex: PRD - 001
+
+        </td>
+
+        <td style="font-size:18px; font-weight:bold;">
+            {{ doc.total_qty or 20 }}
+        </td>
+
+        <td colspan="4"></td>
+
+    </tr>
+
+    <!-- FOOTER -->
+    <tr class="footer-row">
+
+        <td colspan="4">
+            Prepared By:
+        </td>
+
+        <td colspan="4">
+            Verified By:
+        </td>
+
+        <td colspan="4">
+            Approved By:
+        </td>
+
+    </tr>
+
+</table>

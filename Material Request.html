@@ -1,0 +1,170 @@
+
+
+<style>
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 8mm !important;
+    }
+    body {
+        background-color: #ffffff !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}
+
+/* Strict Matrix Grid Block Rule overrides */
+.mrn-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    table-layout: fixed !important;
+    border: 1.5px solid #000000 !important;
+    font-family: Arial, sans-serif !important;
+}
+
+.mrn-table td, .mrn-table th {
+    border: 1px solid #000000 !important;
+    padding: 6px 8px !important;
+    font-size: 11px !important;
+    color: #000000 !important;
+    vertical-align: middle !important;
+    word-wrap: break-word !important;
+}
+
+.mrn-table th {
+    font-weight: bold !important;
+    text-align: center !important;
+    background-color: #ffffff !important;
+}
+
+.text-center { text-align: center !important; }
+.font-bold { font-weight: bold !important; }
+.text-red { color: #000000 !important; font-weight: bold !important; }
+
+/* Dynamic Alignment Checkbox blocks styling */
+.check-container {
+    display: inline-block;
+    min-width: 90px;
+}
+.check-box {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    border: 1px solid #000000;
+    vertical-align: middle;
+    margin-left: 5px;
+    text-align: center;
+    line-height: 11px;
+    font-size: 10px;
+    font-weight: bold;
+}
+</style>
+
+<table class="mrn-table">
+    <colgroup>
+        <col style="width: 8.5%;">  <col style="width: 16.5%;"> <col style="width: 37.0%;"> <col style="width: 11.0%;"> <col style="width: 12.0%;"> <col style="width: 15.0%;"> </colgroup>
+
+    <tr>
+        <td colspan="1" rowspan="3" class="text-center" style="padding: 4px !important; vertical-align: middle !important;">
+            <div style="width: 100%; text-align: center; margin: 0 auto;">
+                {% set company_doc = frappe.get_doc("Company", doc.company) if doc.company else "" %}
+                {% if company_doc and company_doc.company_logo %}
+                    <img src="{{ company_doc.company_logo }}" style="max-height: 35px; max-width: 85px; display: inline-block; vertical-align: middle; margin: 0 auto;">
+                {% else %}
+                    <img src="/files/hanymax_logo.png" onerror="this.src='/files/image.png'; this.onerror=function(){this.src=window.location.origin + '/files/hanymax_logo.png';};" style="max-height: 35px; max-width: 85px; display: inline-block; vertical-align: middle; margin: 0 auto;">
+                {% endif %}
+                <div style="font-size: 8px; font-weight: bold; margin-top: 2px; letter-spacing: 0.3px; text-transform: uppercase;">HANYMAX</div>
+            </div>
+        </td>
+        <td colspan="3" rowspan="3" class="text-center font-bold" style="font-size: 15px !important; letter-spacing: 0.2px;">
+            Material Request/Return Note
+        </td>
+        <td colspan="2" style="font-size: 9.5px !important; line-height: 14px !important; padding-left: 6px !important; vertical-align: middle !important; font-weight: normal !important;">
+            Format No: TMC-QF-NPD-011<br>
+          
+           
+        </td>
+    </tr>
+<tr>
+    <td colspan="2">  Rev.No: </td>
+    <td></td>
+</tr>
+<tr>
+    <td colspan="2"> Date: {% if doc.transaction_date %}{{ doc.get_formatted('transaction_date') }}{% else %}{{ doc.posting_date or '' }}{% endif %}  </td>
+    <td></td>
+</tr>
+    <tr>
+        <td colspan="2" style="padding-top: 8px !important; padding-bottom: 8px !important;">
+            <div class="check-container font-bold">
+                Request: <span class="check-box">{% if doc.material_request_type != "Material Issue" and "Return" not in (doc.purpose or "") %}✓{% endif %}</span>
+            </div>
+        </td>
+        <td colspan="4" style="padding-top: 8px !important; padding-bottom: 8px !important; padding-left: 0px !important;">
+            <div class="check-container font-bold">
+                Return: <span class="check-box">{% if "Return" in (doc.purpose or "") or doc.custom_is_return == 1 or doc.material_request_type == "Material Issue" %}✓{% endif %}</span>
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td class="font-bold">Date:</td>
+        <td style="font-weight: normal !important;">{% if doc.transaction_date %}{{ doc.get_formatted('transaction_date') }}{% else %}{{ doc.posting_date or '' }}{% endif %}</td>
+        <td class="font-bold">Product Name: <span style="font-weight: normal !important; margin-left: 4px;">{{ doc.project or doc.job_card or doc.work_order or "" }}</span></td>
+        <td class="font-bold" colspan="2">Job Card No: <span style="font-weight: normal !important; margin-left: 2px;">{{ doc.job_card or doc.custom_job_card_no or "" }}</span></td>
+        <td class="font-bold">MRN No: <span style="font-weight: normal !important; margin-left: 2px;">{{ doc.name }}</span></td>
+    </tr>
+
+    <tr>
+        <th class="text-center">S.No</th>
+        <th>Item Code</th>
+        <th>Item Description</th>
+        <th colspan="2" class="text-center">Quantity</th>
+        <th>Remarks</th>
+    </tr>
+
+    {% if doc.items %}
+        {% for item in doc.items %}
+        <tr style="height: 35px !important;">
+            <td class="text-center font-bold">{{ loop.index }}</td>
+            <td style="font-weight: normal !important;">{{ item.item_code or "" }}</td>
+            <td style="font-weight: normal !important;">{{ item.item_name or item.description or "" }}</td>
+            <td colspan="2" class="text-center" style="font-weight: normal !important; font-style: normal !important;">
+                {{ item.qty or "" }} {% if item.uom %}<span style="font-size: 11px; font-weight: normal !important;">{{ item.uom }}</span>{% endif %}
+            </td>
+            <td style="font-weight: normal !important;">{{ item.remarks or item.custom_remarks or "" }}</td>
+        </tr>
+        {% endfor %}
+    {% endif %}
+
+    {% set items_count = doc.items|length if doc.items else 0 %}
+    {% if items_count < 5 %}
+        {% for i in range(items_count, 5) %}
+        <tr style="height: 35px !important;">
+            <td class="text-center font-bold">{{ i + 1 }}</td>
+            <td></td>
+            <td></td>
+            <td colspan="2"></td>
+            <td></td>
+        </tr>
+        {% endfor %}
+    {% endif %}
+
+    <tr style="height: 35px !important;">
+        <td class="font-bold">Reason:</td>
+        <td colspan="5" style="font-weight: normal !important;">{{ doc.reason_for_request or doc.explanation or doc.remarks or "" }}</td>
+    </tr>
+
+    <tr style="height: 55px !important;">
+        <td colspan="2" style="vertical-align: bottom !important; font-weight: bold; padding-bottom: 5px !important;">
+            Requested By:
+        </td>
+        <td colspan="2" style="vertical-align: bottom !important; font-weight: bold; padding-bottom: 5px !important; text-align: left;">
+            Approved By:
+        </td>
+        <td colspan="2" style="vertical-align: bottom !important; font-weight: bold; padding-bottom: 5px !important; text-align: left; padding-left: 15px !important;">
+            Store PIC:
+        </td>
+    </tr>
+</table>
+
+</div>
