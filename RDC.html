@@ -1,0 +1,234 @@
+<style>
+@page {
+    size: A4 landscape;
+    margin: 3mm;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 9px;
+    margin: 0;
+    padding: 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+td, th {
+    border: 1px solid #000;
+    padding: 3px;
+    vertical-align: top;
+    word-wrap: break-word;
+}
+
+.center {
+    text-align: center;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.title {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.small {
+    font-size: 8px;
+}
+
+.h25 { height: 25px; }
+.h30 { height: 30px; }
+.h35 { height: 24px; }
+.h40 { height: 28px; }
+.h50 { height: 50px; }
+.h60 { height: 40px; }
+.h150 { height: 120px; }
+
+.logo {
+    width: 95px;
+    height: auto;
+    display: block;
+    margin: auto;
+}
+</style>
+
+<table>
+
+<tr>
+    <td width="18%" colspan="1" rowspan="3" class="center h60">
+        <img src="/files/image.png" class="logo">
+    </td>
+
+    <td width="50%" rowspan="3" class="title">
+        RETURNABLE DELIVERY CHALLAN
+    </td>
+ 
+    <td width="15%" class="bold">
+        Format No:
+    </td>
+
+    <td width="20%"></td>
+</tr>
+
+<tr>
+    <td class="bold">
+        Rev.No:
+    </td>
+
+    <td></td>
+</tr>
+
+<tr>
+    <td class="bold">
+        Date:
+    </td>
+
+    <td></td>
+</tr>
+
+<tr>
+    <td colspan="2" rowspan="4" class="h60">
+        <span class="bold">FROM :</span><br><br>
+
+        HANYMAX ELECTRONICS<br>
+        No. 11A, Ponnai Road,<br>
+        Ranipet Industrial Park - Phase 1,<br>
+        Narasingapuram, Ranipet - 632403,Tamilnadu.<br>
+        Phone : +919176415873
+    </td>
+  
+ 
+  <td class="bold"> Doc#:</td>
+   <td></td>
+   </tr>
+   <tr>
+        <td  class="bold"> Date:</td>
+        <td></td>
+   </tr>
+ <tr>
+      <td  class="bold"> Sup/Cust Ref#:</td>
+       <td></td>
+ </tr>
+ 
+ <tr>
+     <td  class="bold"> Sup/Cust Ref.Date</td>
+ <td></td>
+ </tr>
+
+<tr>
+    <td   colspan="2"class="h25 bold">
+        TO :
+    </td>
+
+    <td class="center bold">
+        Mode of Transport
+    </td>
+
+    <td></td>
+</tr>
+
+<tr>
+    <td colspan="2" rowspan="5" class="h150"></td>
+
+    <td class="center bold">
+        Transport Type
+    </td>
+
+    <td></td>
+</tr>
+
+<tr>
+    <td class="center bold">
+        Tracking #
+    </td>
+
+    <td></td>
+</tr>
+
+<tr>
+    <td class="center bold">
+        Carrier Name
+    </td>
+
+    <td></td>
+</tr>
+
+<tr>
+    <td class="center bold">
+        Carrier Mobile No
+    </td>
+
+    <td></td>
+</tr>
+
+<tr>
+    <td class="center bold">
+        No.of Boxes
+    </td>
+
+    <td></td>
+</tr>
+
+<tr class="center bold h30">
+    <td width="6%">SL#</td>
+   
+     <td width="55%">GOODS DESCRIPTION</td>
+   <td width="12%">QTY</td>
+    <td width="12%">Cost<br>(in INR)</td>
+</tr>
+<tr>
+    <td colspan="4"></td>
+</tr>
+{% for item in data_list %}
+<tr class="h25 center">
+     
+    <td>{{ loop.index }}</td>
+    <td>{{ item.column1 }}</td>
+    <td>{{ item.column2 }}</td>
+    <td>{{ item.column3 }}</td>
+</tr>
+{% endfor %}
+
+<tr class="h30">
+    <td class="bold" >Reason</td>
+    <td  ></td>
+     
+    <td class="center bold">Total Cost</td>
+    <td></td>
+</tr>
+<tr class="h25 bold">
+    <td style="border-bottom: none;">Requested By</td>
+    
+    <td  class="h25 center" style="border-bottom: none;">Verified By</td>
+    <td  class="h25 center" style="border-bottom: none;" colspan="2">Approved By</td>
+   
+    <td ></td>
+    
+</tr>
+ <tr  >
+     <td style="border-top:none">Subash</td>
+     <td class="h25 center" style="border-top:none">SUBASH</td>
+     <td class="h25 center" style="border-top:none" colspan="2">Subash</td>
+     </tr>
+<tr>
+    <td class="center bold">
+         Note: </td>
+        <td colspan="4"> 1. If an RDC is raised, the material must be re-collected from the supplier/customer within 30 days.<br>
+        2. The requester shall be responsible for the re-collection. If the material is not received within 30 days, the Stores department shall escalate the matter.
+    Return Receipt Date:<br><br>
+        Received By (Signature):</td>
+    
+
+    
+</tr>
+
+</table>
+
+ 
